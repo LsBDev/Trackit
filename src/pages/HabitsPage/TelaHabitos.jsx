@@ -25,6 +25,7 @@ const AddHabitos = styled.div `
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  margin-top: 70px;
   background:  #E5E5E5;
   p {
     font-family: 'Lexend Deca';

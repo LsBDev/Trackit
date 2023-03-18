@@ -5,7 +5,7 @@ export default function Footer() {
   return(
       <ContainerFooter >
         <Link to="/habitos">Hábitos</Link>
-          <div></div>
+          <div><Link to="/hoje">Hoje</Link></div>
         <Link to="/historico">Histórico</Link>  
       </ContainerFooter>
 
@@ -29,11 +29,23 @@ const ContainerFooter = styled.footer `
     color: #52B6FF;
   }
   div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 78px;
     height: 80px;
     background: #52B6FF;
     border-radius: 50%;
     margin-bottom: 25px;
+    a {
+      font-family: 'Lexend Deca';
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
   }
 `
 

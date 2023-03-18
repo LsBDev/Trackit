@@ -53,6 +53,7 @@ const Status = styled.div `
   display: flex;
   flex-direction: column;
   padding: 20px;
+  margin-top: 70px;
   h2 {
     font-family: "Lexend Deca";
     font-size: 23px;
