@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import styled from "styled-components";
+import TelaHoje from "./pages/TodayPage/TelaHoje";
+import TelaLogin from "./pages/LoginPage/TelaLogin";
+import TelaCadastro from "./pages/RegisterPage/TelaCadastro"
+import TelaHabitos from "./pages/HabitsPage/TelaHabitos";
+import { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+export default function App() {
+  const [userData, setUserData] = useState({})
+
+  return ( 
+    <Container>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TelaLogin setUserData={setUserData} />}/>
+        <Route path="/cadastro" element={<TelaCadastro />}/>
+        <Route path="/hoje" element={<TelaHoje userData={userData}/>} />
+        <Route path="/habitos" element={<TelaHabitos />}/>
+      </Routes>
+      </BrowserRouter>
+    </Container> 
   );
 }
 
-export default App;
+const Container = styled.div `
+  width: 375px;
+  position: relative;
+  margin: 0 auto;
+`
+
+
+
