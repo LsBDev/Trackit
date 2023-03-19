@@ -17,7 +17,7 @@ export default function App() {
         <Route path="/" element={<TelaLogin setUserData={setUserData} />}/>
         <Route path="/cadastro" element={<TelaCadastro />}/>
         <Route path="/hoje" element={<TelaHoje userData={userData}/>} />
-        <Route path="/habitos" element={<TelaHabitos />}/>
+        <Route path="/habitos" element={<TelaHabitos userData={userData}/>}/>
       </Routes>
       </BrowserRouter>
     </Container> 

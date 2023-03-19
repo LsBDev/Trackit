@@ -3,37 +3,37 @@ import logo from "../../assets/Logo.png"
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import PulseLoader from "react-spinners/PulseLoader";
 
 export default function TelaLogin({setUserData}) {
   const navigate = useNavigate()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const [dis, setDis] = useState(false)
 
   function login(event) {
     event.preventDefault()
+    setDis(true)
     const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
     const dados = {email: email, password: password}
     const promise = axios.post(url, dados)
     promise.then((res) => {
       setUserData(res.data)
+      setDis(false)
       navigate("/hoje")
       })
     promise.catch((err) => console.log(err.response.data))
   }
 
-  // if(userData === {}) {
-  //  disabled={userData === {} ? "true" : "false"}
-  // desabilitar inputs e colocar loading...
-  // }
-
-
+  
   return (
     <Login>
         <img src={logo} alt="logo Trackit"/>
         <Form onSubmit={login}>
-          <input data-test="email-input" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" required/>
-          <input data-test="password-input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="senha" required/>
-          <button data-test="login-btn" type="submit">Entrar</button>
+          <input data-test="email-input" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" disabled={dis} required/>
+          <input data-test="password-input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="senha" disabled={dis} required/>
+          { dis === true ? <button><PulseLoader color="#ffffff" /></button> : <button data-test="login-btn" type="submit">Entrar</button>}
+          
         </Form>
         <Link to="/cadastro" data-test="signup-link">Não tem uma conta? Cadastre-se!</Link>
     </Login>
