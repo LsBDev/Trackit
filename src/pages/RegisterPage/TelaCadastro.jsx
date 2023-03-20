@@ -3,6 +3,7 @@ import logo from "../../assets/Logo.png"
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import PulseLoader from "react-spinners/PulseLoader";
 
 export default function TelaCadastro() {
   const navigate = useNavigate()
@@ -10,16 +11,20 @@ export default function TelaCadastro() {
   const [name, setName] = useState()
   const [image, setImage] = useState()
   const [password, setPassword] = useState()
+  const [dis, setDis] = useState(false)
 
 
   function register(event) {
-    console.log("Entrei")
     event.preventDefault()
+    setDis(true)
     const url = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up'
     const dados = { email: email, name: name, image: image, password: password }
     // const teste = { email: "Jimo@gmail.com", name: "Jimo", image: "https://dedetizadorapragfim.com.br/wp-content/uploads/2020/06/descupinizacao.jpg.webp", password: "12345678" }
     const promise = axios.post(url, dados)
-    promise.then(navigate("/"))
+    promise.then(() => {
+      setDis(false)
+      navigate("/")
+    })
     promise.catch(err => alert(err.response.data))
   }
 
@@ -27,11 +32,11 @@ export default function TelaCadastro() {
     <Main>
         <img src={logo} alt="logo Trackit"/>
         <Form onSubmit={register}>
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" required data-test="email-input"/>
-          <input type="text" value={password} onChange={e => setPassword(e.target.value)} placeholder="senha" required data-test="password-input"/>
-          <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="nome" required data-test="user-name-input"/>
-          <input type="url" value={image} onChange={e => setImage(e.target.value)} placeholder="foto" required data-test="user-image-input"/>
-          <button type="submit" data-test="signup-btn">Entrar</button>
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" disabled={dis}  required data-test="email-input"/>
+          <input type="text" value={password} onChange={e => setPassword(e.target.value)} placeholder="senha" required disabled={dis}  data-test="password-input"/>
+          <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="nome" required  disabled={dis} data-test="user-name-input"/>
+          <input type="url" value={image} onChange={e => setImage(e.target.value)} placeholder="foto" required disabled={dis} data-test="user-image-input"/>
+          { dis === true ? <button><PulseLoader color="#ffffff" /></button> : <button data-test="signup-btn" type="submit">Entrar</button>}
         </Form>
         <Link to="/" data-test="login-link">Já tem uma conta? Faça login!</Link>
     </Main>
