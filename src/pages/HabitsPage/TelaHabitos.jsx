@@ -60,7 +60,7 @@ export default function  TelaHabitos({userData}) {
       days: selectedDays
     }
     const promise = axios.post(url, habito, config)
-    promise.then(res => console.log(res.data))
+    promise.then()
     promise.catch(err => console.log(err.response.data))
   }
 

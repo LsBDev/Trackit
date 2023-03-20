@@ -22,7 +22,10 @@ export default function TelaLogin({setUserData}) {
       setDis(false)
       navigate("/hoje")
       })
-    promise.catch((err) => console.log(err.response.data))
+    promise.catch((err) => {
+      console.log(err.response.data)
+      setDis(false)
+    })
   }
 
   
@@ -33,7 +36,6 @@ export default function TelaLogin({setUserData}) {
           <input data-test="email-input" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" disabled={dis} required/>
           <input data-test="password-input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="senha" disabled={dis} required/>
           { dis === true ? <button><PulseLoader color="#ffffff" /></button> : <button data-test="login-btn" type="submit">Entrar</button>}
-          
         </Form>
         <Link to="/cadastro" data-test="signup-link">Não tem uma conta? Cadastre-se!</Link>
     </Login>
