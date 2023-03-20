@@ -13,7 +13,7 @@ export default function TelaHoje({userData}) {
     },
   };
 
-  console.log(userData)
+  // console.log(userData)
   console.log(myHabits) // fazer um map para renderizar os hábitos na tela.
 
   useEffect(() => {
@@ -31,10 +31,11 @@ export default function TelaHoje({userData}) {
         <h2>Segunda, 17/05</h2>
         <h3>Nenhum hábito concluído ainda</h3>
       </Status>
-
-      <Task/>
-      <Task/>
-      <Task/>
+      {/* {myHabits.map((todayHabit) => console.log(todayHabit))
+      } */}
+      {/* {(
+        <Task todayHabit={todayHabit}/>
+      )} */}
       <Task/>
 
       <Footer/>
