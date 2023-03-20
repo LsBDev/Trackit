@@ -1,22 +1,69 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import Footer from "../../components/Footer"
 import Header from "../../components/Header"
+import axios from "axios"
+import ListaDeHabitos from "./ListaDeHabitos"
 
 export default function  TelaHabitos({userData}) {
   const arrDay = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
-  const [selec, setSelec] = useState([])
+  const [selectedDays, setSelectedDays] = useState([])
+  const [habit, setHabit] = useState()
+  const [hide, setHide] = useState(true)
+  const [habitList, setHabitList] = useState()
 
 
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      }
+    }
+    const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+    const promise = axios.get(url, config)
+    promise.then(res => setHabitList(res.data))
+    promise.catch(err => alert(err.response.data))
+  }, [userData.token])
 
-  function selected(d, i) {
-    const arr = [... selec]
-    if (arr.includes(i)) {
-      setSelec(arr.filter((item) => item !== i))
+
+  function createHabit() {
+    if(hide === true) {
+      setHide(false)
     } else {
-      setSelec([...arr, i])
+      setHide(true)
     }
   }
+
+  function cancel() {
+    setSelectedDays([])
+    setHabit("")
+  }
+
+  function selected(d, i) {
+    const arr = [...selectedDays]
+    if (arr.includes(i)) {
+      setSelectedDays(arr.filter((item) => item !== i))
+    } else {
+      setSelectedDays([...arr, i])
+    }
+  }
+
+  function saveHabits() {
+    const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      }
+    }
+    const habito = {
+      name: habit,
+      days: selectedDays
+    }
+    const promise = axios.post(url, habito, config)
+    promise.then(res => console.log(res.data))
+    promise.catch(err => console.log(err.response.data))
+  }
+
 
   return (
     <Container>
@@ -24,22 +71,23 @@ export default function  TelaHabitos({userData}) {
 
       <AddHabitos>
         <p>Meus hábitos</p>
-        <button>+</button>
+        <button onClick={createHabit}>+</button>
       </AddHabitos>
 
       {/* CRIAR HABITOS */}
-      <Section>
+      <Section >
         <ContainerHabitos>
-          <Habito>
-            <input type="text" placeholder="nome do hábito"/>
+          <Habito hide={hide}>
+            <input type="text" placeholder="nome do hábito" value={habit} onChange={e => setHabit(e.target.value)}/>
             <Days>
-              {arrDay.map((day, index) => <Day selec={selec} day={day} index={index} onClick={() => selected(day, index)} key={index}>{day[0]}</Day>)}
+              {arrDay.map((day, index) => <Day selectedDays={selectedDays} day={day} index={index} onClick={() => selected(day, index)} key={index}>{day[0]}</Day>)}
             </Days>
             <Action>
-              <p>Cancelar</p>
-              <button>Salvar</button>
+              <p onClick={cancel}>Cancelar</p>
+              <button onClick={saveHabits}>Salvar</button>
             </Action>
           </Habito>
+          <ListaDeHabitos habitList={habitList}/>
           <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
           {/* ternário para definir isso */}
         </ContainerHabitos>
@@ -96,6 +144,7 @@ const ContainerHabitos = styled.div `
   flex-direction: column;
 `
 const Habito = styled.div `
+  display: ${props => props.hide === true ? "none" : "block"};
   width: 340px;
   height: 180px;
   background: #FFFFFF;
@@ -128,12 +177,12 @@ const Day = styled.div `
   align-items: center;
   width: 30px;
   height: 30px;
-  background: ${props => props.selec.includes(props.index) ? "#CFCFCF" :  "#FFFFFF"};
+  background: ${props => props.selectedDays.includes(props.index) ? "#CFCFCF" :  "#FFFFFF"};
   border: 1px solid #D5D5D5;
   border-radius: 5px;
   font-family: 'Lexend Deca';
   font-size: 20px;
-  color: ${props => props.selec.includes(props.index) ? "#FFFFFF" :  "#DBDBDB"} ;
+  color: ${props => props.selectedDays.includes(props.index) ? "#FFFFFF" :  "#DBDBDB"} ;
 `
 const Action = styled.div `
   display: flex;
