@@ -3,22 +3,30 @@ import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Task from "./Task"
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
-export default function TelaHoje() {
+export default function TelaHoje({userData}) {
+  const [myHabits, setMyHabits] = useState()
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userData.token}`
+    },
+  };
 
+  console.log(userData)
+  console.log(myHabits) // fazer um map para renderizar os hábitos na tela.
 
   useEffect(() => {
     const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
-    const promise = axios.get(url)
-    promise.then(res => console.log(res.data))
+    const promise = axios.get(url, config)
+    promise.then(res => setMyHabits(res.data))
     promise.catch(erro => console.log(erro.response.data))
 
   }, [])
 
   return (
     <Section>
-      <Header/>
+      <Header userData={userData}/>
       <Status>
         <h2>Segunda, 17/05</h2>
         <h3>Nenhum hábito concluído ainda</h3>
@@ -53,6 +61,7 @@ const Status = styled.div `
   display: flex;
   flex-direction: column;
   padding: 20px;
+  margin-top: 70px;
   h2 {
     font-family: "Lexend Deca";
     font-size: 23px;

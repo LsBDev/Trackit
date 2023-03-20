@@ -1,12 +1,11 @@
 import styled from "styled-components"
-import logoHeader from "../assets/LogoHeader.png"
 import { Link } from "react-router-dom"
 
-export default function Header() {
+export default function Header({userData}) {
   return(
       <ContainerHeader >
         <Link to="/"><h1>Trackit</h1></Link>
-        <img src={logoHeader} alt="foto do usuário" />
+        <img src={userData.image} alt="foto do usuário" />
       </ContainerHeader>
   )
 }
