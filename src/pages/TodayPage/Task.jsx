@@ -1,15 +1,17 @@
 import styled from "styled-components"
 import check from "../../assets/Check.svg"
 
-export default function Task() {
-    
+export default function Task({todayHabit}) {
+  console.log(todayHabit)
+  // todayHabit.done
+
   return (
     <ContainerHabitos> 
       <Tarefa>
         <div>
           <img src={check} alt="check" />
         </div>
-        <h4>Ler 1 capítulo de livro</h4>
+        <h4>name</h4>
         <p>
           Sequência atual: 3 dias <br/>
           Seu recorde: 5 dias

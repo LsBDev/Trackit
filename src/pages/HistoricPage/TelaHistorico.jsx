@@ -1,9 +1,28 @@
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import styled from "styled-components"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 
 export default function TelaHistorico({userData}) {
+  const [historico, setHistorico] = useState()
+  console.log(historico)
+
+
+  useEffect(() => {
+    const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily"
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      },
+    };
+    const promise = axios.get(url, config)
+    promise.then(res => setHistorico(res.data))
+    promise.catch()
+  }, [])
+
+
   return (
     <Section>
       <Header userData={userData}/>
